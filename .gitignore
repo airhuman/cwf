@@ -1,0 +1,12 @@
+*.mk
+*.Makefile
+Makefile
+out
+UpgradeLog.XML
+_UpgradeReport_Files/
+*.sln
+*.suo
+*.vcproj
+*.vcxproj
+*.vcxproj.*
+src/testing/gtest.target.mk
