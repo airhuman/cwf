@@ -23,7 +23,7 @@ class Connection : public boost::enable_shared_from_this<Connection>,
 
  private:
   void HandleRead(const boost::system::error_code& ec, std::size_t bytes_transferred);
-//  void HandleWrite(const boost::system::error &ec);
+  void HandleWrite(const boost::system::error_code& ec, std::size_t bytes_transferred);
 
  private:
   boost::array<char, 1024> buffer_;

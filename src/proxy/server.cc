@@ -29,6 +29,7 @@ ProxyServer::ProxyServer(const std::string& address,
     acceptor_.set_option(boost::asio::socket_base::reuse_address(true));
     acceptor_.set_option(boost::asio::socket_base::keep_alive(true));
     acceptor_.set_option(boost::asio::ip::tcp::no_delay(true));
+    //acceptor_.non_blocking(true);
     acceptor_.bind(endpoint);
     acceptor_.listen();
     StartAccept();
@@ -59,6 +60,8 @@ void ProxyServer::StartAccept() {
 
 void ProxyServer::HandleAccept(const boost::system::error_code& ec) {
   if (!ec) {
+    //LOG(INFO) << "new_conn_->socket().non_blocking(): " << new_conn_->socket().non_blocking();
+    //LOG(INFO) << "acceptor_.non_blocking(): " << acceptor_.non_blocking();
     new_conn_->Start();
   }
   //continue to accept another socket
