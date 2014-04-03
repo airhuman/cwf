@@ -1,7 +1,7 @@
 #include "proxy/server.h"
 
 #include <boost/bind.hpp>
-
+#include "base3/ptime.h"
 #include "proxy/connection.h"
 
 namespace xce {
@@ -42,9 +42,15 @@ void ProxyServer::HandleSignal(const boost::system::error_code& ec, int sig_num)
 }
 
 
-
 void ProxyServer::Start() {
-  io_service_.run();
+  {
+    PTIME(pt, "Server started", true, 0);
+    //io_service_.run();
+    for (std::size_t i = 0; i < thread_pool_size_; ++i) {
+      thread_group_.add_thread(new boost::thread(boost::bind(&boost::asio::io_service::run, &io_service_)));
+    }
+  }
+  thread_group_.join_all();
 }
 
 void ProxyServer::Stop() {

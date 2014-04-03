@@ -23,7 +23,7 @@ void Connection::Start() {
 
 void Connection::HandleRead(const boost::system::error_code& ec, std::size_t bytes_transferred) {
   //if bytes_transferred == 0, then quit, and close socket
-  //LOG(INFO) << "ec=" << ec << ", bytes_transferred=" << bytes_transferred;
+  LOG(INFO) << "ec=" << ec << ", bytes_transferred=" << bytes_transferred;
   if (ec && bytes_transferred == 0) {
     boost::system::error_code ignored_ec;
     socket_.shutdown(boost::asio::ip::tcp::socket::shutdown_both);

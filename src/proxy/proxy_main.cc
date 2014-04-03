@@ -9,7 +9,7 @@ int main() {
     LOG(INFO) << "hello proxy";
 
     try {
-      xce::ProxyServer ps("127.0.0.1", "6400", 1);
+      xce::ProxyServer ps("127.0.0.1", "6400", 8);
       ps.Start();
     } catch (std::exception& e) {
         std::cerr << e.what() << std::endl;
