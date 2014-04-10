@@ -2,6 +2,7 @@
 #define PROXY_SERVER_H_
 
 #include <boost/noncopyable.hpp>
+#include <boost/enable_shared_from_this.hpp>
 #include <boost/asio.hpp>
 #include <boost/thread.hpp>
 
@@ -12,17 +13,24 @@
 
 namespace xce {
 
-class ProxyServer : private boost::noncopyable {
+class ProxyServer : public boost::enable_shared_from_this<ProxyServer>, 
+                    private boost::noncopyable {
  public:
   ProxyServer(const std::string& address, const std::string& port, std::size_t thread_pool_size);
     
   void Start();
   void Stop();
 
+  boost::asio::io_service& GetService() {
+    return io_service_;
+  }
+
  private:
   void HandleSignal(const boost::system::error_code& ec, int sig_num);
   void StartAccept();
   void HandleAccept(const boost::system::error_code& ec);
+
+  //void JoinAll();
 
  private:
   std::string address_;

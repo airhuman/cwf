@@ -20,7 +20,27 @@
   ],
   'targets': [
     {
-      'target_name': 'proxy_server',
+      'target_name': 'redis_proxy_server',
+      'type': 'executable',
+      'msvs_guid': '11384247-5F84-4DAE-8AB2-655600A90963',
+      'dependencies': [
+        'base3.gyp:base3',
+      ],
+      'conditions':[
+        ['OS=="linux"', {'libraries': ['-lboost_system', '-lboost_thread', '-lpthread'] }],
+        ['OS=="win"', {'libraries': ['ws2_32.lib'] }],
+      ],
+      'sources': [
+        '../src/proxy/redis_connection.cc',
+        '../src/proxy/redis_proxy_server.cc',
+        '../src/proxy/redis_proxy_main.cc',
+      ],
+      'include_dirs': [
+        '../src',
+      ],
+    },
+    {
+      'target_name': 'echo_server',
       'type': 'executable',
       'msvs_guid': '11384247-5F84-4DAE-8AB2-655600A90963',
       'dependencies': [
@@ -33,7 +53,7 @@
       'sources': [
         '../src/proxy/connection.cc',
         '../src/proxy/server.cc',
-        '../src/proxy/proxy_main.cc',
+        '../src/proxy/echo_server_main.cc',
       ],
       'include_dirs': [
         '../src',

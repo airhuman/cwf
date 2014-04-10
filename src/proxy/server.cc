@@ -2,7 +2,8 @@
 
 #include <boost/bind.hpp>
 #include "base3/ptime.h"
-#include "proxy/connection.h"
+
+
 
 namespace xce {
 
@@ -50,7 +51,8 @@ void ProxyServer::Start() {
       thread_group_.add_thread(new boost::thread(boost::bind(&boost::asio::io_service::run, &io_service_)));
     }
   }
-  thread_group_.join_all();
+  //thread_group_.join_all();
+  //thread_group_.add_thread(new boost::thread(boost::bind(&ProxyServer::JoinAll, shared_from_this())));
 }
 
 void ProxyServer::Stop() {
@@ -73,6 +75,10 @@ void ProxyServer::HandleAccept(const boost::system::error_code& ec) {
   //continue to accept another socket
   StartAccept();
 }
+
+//void ProxyServer::JoinAll() {
+//  thread_group_.join_all();
+//}
 
 } //end xce
 
