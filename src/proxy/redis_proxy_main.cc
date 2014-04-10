@@ -125,6 +125,12 @@ void SignalReopen(int) {
   KillChildren(SIGUSR1);
 }
 
+//child process 
+void SignalQuit(int) {
+  quit_ = 1;
+  io_service_.stop();
+}
+
 void SignalChildren(int) {
   if (!quit_) {
     fork_count_ = 1;
@@ -201,7 +207,8 @@ int Fork(int thread_count, const char * log_filename) {
     LOG(INFO) << "child proccess begin";
 
     base::InstallSignal(SIGUSR1, SignalReopen);
-    base::InstallSignal(SIGTERM, SIG_IGN);
+    base::InstallSignal(SIGTERM, SignalQuit);
+    base::InstallSignal(SIGINT, SignalQuit);
 
     xce::RedisProxyServer redis_proxy_server(thread_count, io_service_, *acceptor_ptr_);
     redis_proxy_server.Start();
