@@ -567,7 +567,8 @@ ctemplate_SetGlobalValue (PyObject* self, PyObject* args) {
     if (!PyArg_ParseTuple(args, "s#O", &name, &name_len, &obj))
         return NULL;
     char* value;
-    int value_len;
+    //int value_len;
+    Py_ssize_t value_len;
     PyObject* value_obj = PyObject_Str(obj);
     if (value_obj == NULL) {
         Py_DECREF(obj);
@@ -715,7 +716,7 @@ add_constants (PyObject* m) {
     PyModule_AddIntConstant(m, "TS_EMPTY", ctemplate::TS_EMPTY);
     PyModule_AddIntConstant(m, "TS_ERROR", ctemplate::TS_ERROR);
     PyModule_AddIntConstant(m, "TS_READY", ctemplate::TS_READY);
-    // PyModule_AddIntConstant(m, "TS_SHOULD_RELOAD", ctemplate::TS_SHOULD_RELOAD);
+    //PyModule_AddIntConstant(m, "TS_SHOULD_RELOAD", ctemplate::TS_SHOULD_RELOAD);
     PyModule_AddIntConstant(m, "TC_HTML", ctemplate::TC_HTML);
     PyModule_AddIntConstant(m, "TC_JS", ctemplate::TC_JS);
     PyModule_AddIntConstant(m, "TC_CSS", ctemplate::TC_CSS);
