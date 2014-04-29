@@ -5,7 +5,8 @@ from distutils.core import setup, Extension
 
 module1 = Extension('ctemplate',
                     sources = ['src/ctemplate.cpp'],
-                    libraries = ["ctemplate", "pthread"])
+                    libraries = ['ctemplate', 'pthread'],
+                    runtime_library_dirs=['/usr/local/lib'])
 
 myname = "Bastian Kleineidam"
 myemail = "calvin@debian.org"
