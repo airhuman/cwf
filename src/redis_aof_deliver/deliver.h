@@ -11,7 +11,6 @@
 
 #include "redis_aof_deliver/transporter.h"
 
-
 namespace qunar {
 
 class RedisAofDeliver {
@@ -23,7 +22,6 @@ class RedisAofDeliver {
   void SetUpTransporter(boost::shared_ptr<qunar::Transporter> tran) {
     transporter_ = tran;
   }
-
 
  private:
   int ConsumeNewline(const char*);

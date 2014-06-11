@@ -10,6 +10,14 @@
 #include "base3/consistenthash.h"
 #include "redis_aof_deliver/deliver.h"
 
+
+/*
+REDIS_ENPOINTS_FILE's content looks like this:
+$ cat endpoints.txt
+cluster8888:192.168.249.34:8888:hello:1000:4:16
+cluster9999:192.168.249.34:9999:hello:1000:4:16
+*/
+
 static qunar::RedisAofDeliver* deliver_ = 0;
 
 void OpenLogger(const char * log_filename) {

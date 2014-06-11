@@ -22,7 +22,6 @@ static std::string GetRedisPass(const std::string& cipher) {
   return otem.str();
 }
 
-
 Transporter::Transporter(const std::list<std::string>& cluster_list) : continuum_("redis_aof_deliver") {
   BOOST_FOREACH(const std::string& config, cluster_list) {
     if (!AddEndpoint(config)) {
@@ -59,11 +58,8 @@ bool Transporter::AddEndpoint(const std::string& config) {
   tcp::resolver::query query(tcp::v4(), host, port);
   tcp::resolver::iterator iterator = resolver.resolve(query);
 
-  //boost::shared_ptr<tcp::socket> socket_ptr;
-  //socket_ptr.reset(new tcp::socket(io_service_));
   tcp::socket* socket_ptr = new tcp::socket(io_service_);
   boost::asio::connect(*socket_ptr, iterator);
-  //socket_ptr->non_blocking(true);
   socket_ptr->set_option(tcp::no_delay(true));
   std::ostringstream otem;
   otem << "*2\r\n"
@@ -93,7 +89,6 @@ bool Transporter::AddEndpoint(const std::string& config) {
     LOG(ERROR) << "auth Failed, host:" << host << ",port:" << port << ",pwd:" << pwd;
     return false;
   } else {
-    //socket_map_.insert(std::make_pair(cluster_name, socket_ptr));
     boost::shared_ptr<Worker> worker;
     worker.reset(new Worker(socket_ptr));
     worker_map_.insert(std::make_pair(cluster_name, worker));
@@ -109,16 +104,7 @@ void Transporter::SendCommand(Command* cmd) {
   if (iter != worker_map_.end()) {
     iter->second->Post(cmd);
   }
-  //SocketMap::const_iterator iter = socket_map_.find(sock_name);
-  //if (iter != socket_map_.end()) {
-  //  try {
-  //    iter->second->write_some(boost::asio::buffer(cmd.data_, cmd.data_.size()));
-  //  } catch (std::exception& e) {
-  //    LOG(ERROR) << "SendCommand failed! " << e.what();
-  //  }
-  //}
 }
-//----
 
 Worker::Worker(boost::asio::ip::tcp::socket* socket): socket_(socket) {
   work_thread_ = new boost::thread(boost::bind(&Worker::Handle, this));
@@ -143,7 +129,6 @@ void Worker::Stop() {
     LOG(ERROR) << e.what();
   }
 }
-
 
 void Worker::Handle() {
   while (true) {

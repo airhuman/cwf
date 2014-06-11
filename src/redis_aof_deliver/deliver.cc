@@ -17,12 +17,8 @@
 
 namespace qunar {
 
-//const int RedisAofDeliver::kTrackReadBufferSize = 1024 * 1024 * 20; //20MB
-
-
 #define EVENT_SIZE  ( sizeof (struct inotify_event) )
 #define BUF_LEN     ( 1024 * ( EVENT_SIZE + 16 ) )
-
 
 static int GetFileSize(const std::string& file_path, off_t *size) {
   struct stat st;
@@ -33,7 +29,7 @@ static int GetFileSize(const std::string& file_path, off_t *size) {
   *size = st.st_size;
   return 0;
 }
-//---------------
+
 RedisAofDeliver::RedisAofDeliver(const std::string& aof_file_path)
   :aof_file_path_(aof_file_path), shutdown_(false) {
   track_aof_fd_ = open(aof_file_path_.c_str(), O_APPEND, O_RDONLY);
@@ -90,7 +86,6 @@ void RedisAofDeliver::ProcessDeliver() {
     }
   }
 }
-
 
 int RedisAofDeliver::ConsumeNewline(const char* buf) {
   if (strncmp(buf, "\r\n", 2) != 0) {
